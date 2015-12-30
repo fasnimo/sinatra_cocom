@@ -280,7 +280,7 @@ edit.erb
 </form>
 ```
 
-The main different here is that we added the `checked` property to each checkbox, on the condition that the given pet is already owned by this owner, i.e included in this owner's collection of pets. We implemented this `if` statement by wrapping the `checked` attribute in erb tags, allowing us to use Ruby on our view page. 
+The main difference here is that we added the `checked` property to each checkbox, on the condition that the given pet is already owned by this owner, i.e included in this owner's collection of pets. We implemented this `if` statement by wrapping the `checked` attribute in erb tags, allowing us to use Ruby on our view page. 
 
 Go ahead and make some changes to your owner using this edit form, then place a `binding.pry` in your `post '/owners/:id'` action and submit the form. Once you hit your binding, type `params` in the terminal. 
 
