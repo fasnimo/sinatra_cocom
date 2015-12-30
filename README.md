@@ -248,7 +248,9 @@ Our edit form will be very similar to our create form. We want a user to be able
 
 Let's do it!
 
-```htmledit.erb<h1>Update Owner</h1>
+```html
+edit.erb
+<h1>Update Owner</h1>
 
 <form action="/owners/<%=@owner.id%>" method="POST">
   <label>Name:</label>
@@ -340,3 +342,4 @@ And that's it!
 Now that we've walked through these features together for the `Owner` model, take some time and try to build out the same functionality for `Pet`. The form to create a new pet should allow a user to select from the list of available owners and/or create a new owner to associate to a pet and the form to edit a given pet should allow the user to select/de-select existing owners and/or create a new owner. 
 
 There are no tests for this, just use the examples above to get it working. 
+<a href='https://learn.co/lessons/sinatra-complex-forms-associations' data-visibility='hidden'>View this lesson on Learn.co</a>
