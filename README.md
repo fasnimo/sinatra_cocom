@@ -13,7 +13,7 @@ In order to achieve this, we'll have to build forms that allow for a user to cre
 
 ## Overview
 
-**This is a walk-through with some extra challenges for you to complete on your own. There is no test suite. To follow along, use `shotgun` to start your app and visit URLs/fill out forms as instructed.** In this walk-through, we're dealing with a pet domain model. We have an `Owner` model and a `Pet` model. An owner has many pets and a pet belongs to an owner. We've already built the migrations, models and some controller actions and views. Fork and clone this lab to follow along. 
+**This is a walk-through with some extra challenges for you to complete on your own.  There are tests, so be sure to run the tests to make sure you're following along correctly. To follow along, use `shotgun` to start your app and visit URLs/fill out form s as instructed.** In this walk-through, we're dealing with a pet domain model. We have an `Owner` model and a `Pet` model. An owner has many pets and a pet belongs to an owner. We've already built the migrations, models and some controller actions and views. Fork and clone this lab to follow along. 
 
 Because an owner has many pets, we want our user to be able to choose, of the existing pets in our database, which ones to associate to an owner *when an owner is being created*, and/or to create a new pet *and associate it to the owner being created*. So, our form for a new owner must also contain a way for users to select a number of existing pets to associate to that owner as well as a way for a user to create a brand new pet to get associated to that owner. The same is true of editing a given owner: a user should be able to select and de-select existing pets and/or create a new pet to associate to the owner. 
 
@@ -60,19 +60,19 @@ Open up `app/views/owners/new.erb` and you should see the following code:
   
   <br></br>
   
-  <input type="text" name="owner[name]">
+  <input type="text" name="owner[name]" id="owner_name">
   
   <input type="submit" value="Create Owner">
 </form>
 ```
 
-Here we have a basic form for a new owner with an field for that new owner's name. However, we want our users to be able to create an owner and select from the list of existing pets to associate to that new owner *at the same time*. So, our form should include a list of checkboxes, one for each existing pet, for our user to select from at will. 
+Here we have a basic form for a new owner with an field for that new owner's name. However, we want our users to be able to create an owner and select from the list of existing pets to associate to that new owner *at the same time*. So, our form should include a list of check-boxes, one for each existing pet, for our user to select from at will. 
 
-How can we dynamically, or programmatically, generate a list of checkboxes from all the pets that are currently in our database?
+How can we dynamically, or programmatically, generate a list of check-boxes from all the pets that are currently in our database?
 
-#### Dynamically Generating Checkboxes
+#### Dynamically Generating Check-boxes
 
-In order to dynamically generate these checkboxes, we need to load up all of the pets from the database. Then, we can iterate over them in our `owners/new.erb` view using erb tags to inject each pet's information into a checkbox form element. Let's take a look:
+In order to dynamically generate these check-boxes, we need to load up all of the pets from the database. Then, we can iterate over them in our `owners/new.erb` view using erb tags to inject each pet's information into a check-box form element. Let's take a look:
 
 ```html
 # views/owners/new.erb
@@ -82,9 +82,9 @@ In order to dynamically generate these checkboxes, we need to load up all of the
 ```
 Let's break this down: 
 
-* We use erb to get all of the pets with `Pet.all`, then we iterate over that collection of pet objects and generate a checkbox for each pet. 
-* That checkbox has a `name` of `"owner[pet_ids][]"` because we want to structure our params such that the array of pet ids is stored inside the `"owner"` hash, since we are aiming to associate the pets that have these ids with this new owner. 
-* We give the checkbox a value of the given pet's id. This way, when that checkbox is selected, its value, i.e. the pet's id, is what gets sent through in the params. 
+* We use erb to get all of the pets with `Pet.all`, then we iterate over that collection of pet objects and generate a check-box for each pet. 
+* That check-box has a `name` of `"owner[pet_ids][]"` because we want to structure our params such that the array of pet ids is stored inside the `"owner"` hash, since we are aiming to associate the pets that have these ids with this new owner. 
+* We give the check-box a value of the given pet's id. This way, when that check-box is selected, its value, i.e. the pet's id, is what gets sent through in the params. 
 * Lastly, in between the opening and closing input tags, we use erb to render the given pet's name. 
 
 The result is that we'll have a form that looks something like this:
@@ -98,7 +98,7 @@ Let's place a  `binding.pry` in the `post '/owners'` route and submit our form s
 {"owner"=>{"name"=>"Adele", "pet_ids"=>["1", "2"]}}
 ```
 
-I filled out my form with a name of "Adele" and I checked the boxes for "Maddy" and "Nona". So, our params have a key of `"owner"` which points to a value that is a hash that contains a key of `"name"`, with the name from the form, and a key of `"pet_ids"`, which points to an array containing the ids of all of the pets we selected via our checkboxes. Let's move on to writing the code that will create new owner *and* associate it to these pets. 
+I filled out my form with a name of "Adele" and I checked the boxes for "Maddy" and "Nona". So, our params have a key of `"owner"` which points to a value that is a hash that contains a key of `"name"`, with the name from the form, and a key of `"pet_ids"`, which points to an array containing the ids of all of the pets we selected via our check-boxes. Let's move on to writing the code that will create new owner *and* associate it to these pets. 
 
 #### Creating New Owners With Associated Pets in the Controller
 
@@ -137,7 +137,7 @@ Now that we have this working code, let's go ahead and place it in our `post '/o
 
 post '/owners' do 
   @owner = Owner.create(params[:owner])
-  redirect to "owners/#{@owner_id}"
+  redirect "owners/#{@owner_id}"
 end
 ```
 
@@ -165,7 +165,7 @@ Now our whole form should look something like this:
   
   <br></br>
   
-  <input type="text" name="owner[name]">
+  <input type="text" name="owner[name]" id="owner_name">
   
   <br></br>
   
@@ -174,7 +174,7 @@ Now our whole form should look something like this:
   <br></br>
   
   <%Pet.all.each do |pet|%>
-    <input type="checkbox" name="owner[pet_ids][]" value="<%=pet.id%>"><%=pet.name%></input>
+    <input type="checkbox" name="owner[pet_ids][]" id="<%=pet.name%>" value="<%=pet.id%>"><%=pet.name%></input>
   <%end%>
   
   <br></br>
@@ -235,16 +235,16 @@ end
 
 Let's sum up before we move on. We:
 
-* Built a form that dynamically generated checkboxes for each of the existing pets.
+* Built a form that dynamically generated check-boxes for each of the existing pets.
 * Added a field to that form for a user to fill out the name for a brand new pet. 
-* Built a controller action that uses mass assignment to create a new owner and associate it to any existing pets that a user selected via checkboxes. 
+* Built a controller action that uses mass assignment to create a new owner and associate it to any existing pets that a user selected via check-boxes. 
 * Added to that controller action code that checks to see if a user did in fact fill our the form field to name and create a new pet. If so, our code will create that new pet and add it to the newly created owner's collection of pets. 
 
 Now that we can create a new owner with associated pets, let's build out the feature for editing that owner and its associated pets. 
 
 ### Editing Owners and Associated Pets
 
-Our edit form will be very similar to our create form. We want a user to be able to edit everything about a user: its name as well as its associated pets. So, our form should have the standard, pre-filled name field, as well as the dynamically generated checkboxes of existing pets. This time, though, those checkboxes should be automatically checked if the given owner already owns that pet. Lastly, we'll need the same form field we built earlier for a user to create a new pet to be associated to our owner. 
+Our edit form will be very similar to our create form. We want a user to be able to edit everything about a user: its name as well as its associated pets. So, our form should have the standard, pre-filled name field, as well as the dynamically generated check-boxes of existing pets. This time, though, those check-boxes should be automatically checked if the given owner already owns that pet. Lastly, we'll need the same form field we built earlier for a user to create a new pet to be associated to our owner. 
 
 Let's do it!
 
@@ -257,7 +257,7 @@ edit.erb
   
   <br></br>
   
-  <input type="text" name="owner[name]" value="<%=@owner.name%>">
+  <input type="text" name="owner[name]" id="owner_name" value="<%=@owner.name%>">
   
   <br></br>
   
@@ -266,7 +266,7 @@ edit.erb
   <br></br>
   
   <%Pet.all.each do |pet|%>
-    <input type="checkbox" name="owner[pet_ids][]" value="<%=pet.id%>" <%='checked' if @owner.pets.include?(pet) %>><%=pet.name%></input>
+    <input type="checkbox" name="owner[pet_ids][]" id="<%= pet.name%>" value="<%=pet.id%>" <%='checked' if @owner.pets.include?(pet) %>><%=pet.name%></input>
   <%end%>
   
   <br></br>
@@ -274,13 +274,13 @@ edit.erb
   <label>and/or, create a new pet:</label>
   <br></br>
   <label>name:</label>
-    <input  type="text" name="pet[name]"></input>
+    <input  type="text" name="pet[name]" id="pet_name"></input>
   <br></br>
-  <input type="submit" value="Create Owner">
+  <input type="submit" value="Update Owner">
 </form>
 ```
 
-The main difference here is that we added the `checked` property to each checkbox, on the condition that the given pet is already owned by this owner, i.e included in this owner's collection of pets. We implemented this `if` statement by wrapping the `checked` attribute in erb tags, allowing us to use Ruby on our view page. 
+The main difference here is that we added the `checked` property to each check-box, on the condition that the given pet is already owned by this owner, i.e included in this owner's collection of pets. We implemented this `if` statement by wrapping the `checked` attribute in erb tags, allowing us to use Ruby on our view page. 
 
 Go ahead and make some changes to your owner using this edit form, then place a `binding.pry` in your `post '/owners/:id'` action and submit the form. Once you hit your binding, type `params` in the terminal. 
 
@@ -291,10 +291,6 @@ I filled out my edit form like this:
 Notice that I've unchecked the first two pets, Maddy and Nona, and checked the next two pets.
 
 My params consequently look like this:
-
-
-
-You should see something like this:
 
 
 ```ruby
@@ -340,6 +336,5 @@ And that's it!
 ### Creating and Updating Pets with Associated Owners
 
 Now that we've walked through these features together for the `Owner` model, take some time and try to build out the same functionality for `Pet`. The form to create a new pet should allow a user to select from the list of available owners and/or create a new owner to associate to a pet and the form to edit a given pet should allow the user to select/de-select existing owners and/or create a new owner. 
-
-There are no tests for this, just use the examples above to get it working. 
+ 
 <a href='https://learn.co/lessons/sinatra-complex-forms-associations' data-visibility='hidden'>View this lesson on Learn.co</a>
