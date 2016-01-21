@@ -77,14 +77,15 @@ In order to dynamically generate these check-boxes, we need to load up all of th
 ```html
 # views/owners/new.erb
 <%Pet.all.each do |pet|%>
-    <input type="checkbox" name="owner[pet_ids][]" value="<%=pet.id%>"><%=pet.name%></input>
+    <input type="checkbox" name="owner[pet_ids][]" value="<%=pet.id%>" id="<%=pet.id%>"><%=pet.name%></input>
 <%end%>
 ```
 Let's break this down: 
 
 * We use erb to get all of the pets with `Pet.all`, then we iterate over that collection of pet objects and generate a check-box for each pet. 
 * That check-box has a `name` of `"owner[pet_ids][]"` because we want to structure our params such that the array of pet ids is stored inside the `"owner"` hash, since we are aiming to associate the pets that have these ids with this new owner. 
-* We give the check-box a value of the given pet's id. This way, when that check-box is selected, its value, i.e. the pet's id, is what gets sent through in the params. 
+* We give the checkbox a value of the given pet's id. This way, when that check-box is selected, its value, i.e. the pet's id, is what gets sent through in the params. 
+* We give the checkbox an id of the given pet's id, so that our Capybara test can find the checkbox using a pet id.
 * Lastly, in between the opening and closing input tags, we use erb to render the given pet's name. 
 
 The result is that we'll have a form that looks something like this:
@@ -249,7 +250,7 @@ Our edit form will be very similar to our create form. We want a user to be able
 Let's do it!
 
 ```html
-edit.erb
+# edit.erb
 <h1>Update Owner</h1>
 
 <form action="/owners/<%=@owner.id%>" method="POST">
@@ -266,7 +267,7 @@ edit.erb
   <br></br>
   
   <%Pet.all.each do |pet|%>
-    <input type="checkbox" name="owner[pet_ids][]" id="<%= pet.name%>" value="<%=pet.id%>" <%='checked' if @owner.pets.include?(pet) %>><%=pet.name%></input>
+    <input type="checkbox" name="owner[pet_ids][]" id="<%= pet.id%>" value="<%=pet.id%>" <%='checked' if @owner.pets.include?(pet) %>><%=pet.name%></input>
   <%end%>
   
   <br></br>
