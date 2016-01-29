@@ -340,4 +340,4 @@ Now that we've walked through these features together for the `Owner` model, tak
 
 Make sure you run the tests to check your work.
  
-<a href='https://learn.co/lessons/sinatra-complex-forms-associations' data-visibility='hidden'>View this lesson on Learn.co</a>
+<p data-visibility='hidden'>View <a href='https://learn.co/lessons/sinatra-complex-forms-associations' title='Sinatra and Active Record: Associations and Complex Forms'>Sinatra and Active Record: Associations and Complex Forms</a> on Learn.co and start learning to code for free.</p>
