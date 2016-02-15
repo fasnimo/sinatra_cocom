@@ -66,7 +66,7 @@ Open up `app/views/owners/new.erb` and you should see the following code:
 </form>
 ```
 
-Here we have a basic form for a new owner with an field for that new owner's name. However, we want our users to be able to create an owner and select from the list of existing pets to associate to that new owner *at the same time*. So, our form should include a list of check-boxes, one for each existing pet, for our user to select from at will. 
+Here we have a basic form for a new owner with a field for that new owner's name. However, we want our users to be able to create an owner and select from the list of existing pets to associate to that new owner *at the same time*. So, our form should include a list of check-boxes, one for each existing pet, for our user to select from at will. 
 
 How can we dynamically, or programmatically, generate a list of check-boxes from all the pets that are currently in our database?
 
@@ -341,3 +341,5 @@ Now that we've walked through these features together for the `Owner` model, tak
 Make sure you run the tests to check your work.
  
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/sinatra-complex-forms-associations' title='Sinatra and Active Record: Associations and Complex Forms'>Sinatra and Active Record: Associations and Complex Forms</a> on Learn.co and start learning to code for free.</p>
+
+<p data-visibility='hidden'>View <a href='https://learn.co/lessons/sinatra-complex-forms-associations'>Sinatra Complex Forms Associations</a> on Learn.co and start learning to code for free.</p>
