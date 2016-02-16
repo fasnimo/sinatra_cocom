@@ -175,7 +175,7 @@ Now our whole form should look something like this:
   <br></br>
   
   <%Pet.all.each do |pet|%>
-    <input type="checkbox" name="owner[pet_ids][]" id="<%=pet.name%>" value="<%=pet.id%>"><%=pet.name%></input>
+    <input type="checkbox" name="owner[pet_ids][]" id="<%=pet.id%>" value="<%=pet.id%>"><%=pet.name%></input>
   <%end%>
   
   <br></br>
@@ -341,3 +341,5 @@ Now that we've walked through these features together for the `Owner` model, tak
 Make sure you run the tests to check your work.
  
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/sinatra-complex-forms-associations' title='Sinatra and Active Record: Associations and Complex Forms'>Sinatra and Active Record: Associations and Complex Forms</a> on Learn.co and start learning to code for free.</p>
+
+<p data-visibility='hidden'>View <a href='https://learn.co/lessons/sinatra-complex-forms-associations'>Sinatra Complex Forms Associations</a> on Learn.co and start learning to code for free.</p>
