@@ -13,7 +13,7 @@ In order to achieve this, we'll have to build forms that allow for a user to cre
 
 ## Overview
 
-**This is a walk-through with some extra challenges for you to complete on your own.  There are tests, so be sure to run the tests to make sure you're following along correctly. To follow along, use `shotgun` to start your app and visit URLs/fill out form s as instructed.** In this walk-through, we're dealing with a pet domain model. We have an `Owner` model and a `Pet` model. An owner has many pets and a pet belongs to an owner. We've already built the migrations, models and some controller actions and views. Fork and clone this lab to follow along. 
+**This is a walk-through with some extra challenges for you to complete on your own.  There are tests, so be sure to run the tests to make sure you're following along correctly. To follow along, use `shotgun` to start your app and visit URLs/fill out forms as instructed.** In this walk-through, we're dealing with a pet domain model. We have an `Owner` model and a `Pet` model. An owner has many pets and a pet belongs to an owner. We've already built the migrations, models and some controller actions and views. Fork and clone this lab to follow along. 
 
 Because an owner has many pets, we want our user to be able to choose, of the existing pets in our database, which ones to associate to an owner *when an owner is being created*, and/or to create a new pet *and associate it to the owner being created*. So, our form for a new owner must also contain a way for users to select a number of existing pets to associate to that owner as well as a way for a user to create a brand new pet to get associated to that owner. The same is true of editing a given owner: a user should be able to select and de-select existing pets and/or create a new pet to associate to the owner. 
 
@@ -341,3 +341,5 @@ Now that we've walked through these features together for the `Owner` model, tak
 Make sure you run the tests to check your work.
  
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/sinatra-complex-forms-associations' title='Sinatra and Active Record: Associations and Complex Forms'>Sinatra and Active Record: Associations and Complex Forms</a> on Learn.co and start learning to code for free.</p>
+
+<p data-visibility='hidden'>View <a href='https://learn.co/lessons/sinatra-complex-forms-associations'>Sinatra Complex Forms Associations</a> on Learn.co and start learning to code for free.</p>
