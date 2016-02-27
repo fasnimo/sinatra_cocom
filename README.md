@@ -138,7 +138,7 @@ Now that we have this working code, let's go ahead and place it in our `post '/o
 
 post '/owners' do 
   @owner = Owner.create(params[:owner])
-  redirect "owners/#{@owner_id}"
+  redirect "owners/#{@owner.id}"
 end
 ```
 
