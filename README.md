@@ -308,7 +308,7 @@ Let's update our owner with this new information. Just like Active Record was sm
 
 ```ruby
 @owner = Owner.find(params[:id])
-@owner.udpate(params[:owner])
+@owner.update(params[:owner])
 ```
 
 Now, if we type `@owner.pets`, we'll see that the owner is no longer associated to pets 1 or 2, but is associated to the pets who have an id of 3 and 4:
