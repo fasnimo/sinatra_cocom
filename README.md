@@ -175,7 +175,7 @@ Now our whole form should look something like this:
   <br></br>
   
   <%Pet.all.each do |pet|%>
-    <input type="checkbox" name="owner[pet_ids][]" id="<%=pet.name%>" value="<%=pet.id%>"><%=pet.name%></input>
+    <input type="checkbox" name="owner[pet_ids][]" id="<%=pet.id%>" value="<%=pet.id%>"><%=pet.name%></input>
   <%end%>
   
   <br></br>
