@@ -239,7 +239,7 @@ Let's sum up before we move on. We:
 * Built a form that dynamically generated check-boxes for each of the existing pets.
 * Added a field to that form for a user to fill out the name for a brand new pet. 
 * Built a controller action that uses mass assignment to create a new owner and associate it to any existing pets that a user selected via check-boxes. 
-* Added to that controller action code that checks to see if a user did in fact fill our the form field to name and create a new pet. If so, our code will create that new pet and add it to the newly created owner's collection of pets. 
+* Added to that controller action code that checks to see if a user did in fact fill out the form field to name and create a new pet. If so, our code will create that new pet and add it to the newly created owner's collection of pets. 
 
 Now that we can create a new owner with associated pets, let's build out the feature for editing that owner and its associated pets. 
 
