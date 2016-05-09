@@ -189,7 +189,7 @@ Now our whole form should look something like this:
 </form>
 ```
 
-Note that we've included the section for creating a new pet at the bottom of the form and we've given that input field a name of `pet[name]`. Now, if we fill our our form like this:
+Note that we've included the section for creating a new pet at the bottom of the form and we've given that input field a name of `pet[name]`. Now, if we fill out our form like this:
 
 ![](http://readme-pics.s3.amazonaws.com/creat-owner-two.png)
 
@@ -343,3 +343,5 @@ Make sure you run the tests to check your work.
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/sinatra-complex-forms-associations' title='Sinatra and Active Record: Associations and Complex Forms'>Sinatra and Active Record: Associations and Complex Forms</a> on Learn.co and start learning to code for free.</p>
 
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/sinatra-complex-forms-associations'>Sinatra Complex Forms Associations</a> on Learn.co and start learning to code for free.</p>
+
+<p class='util--hide'>View <a href='https://learn.co/lessons/sinatra-complex-forms-associations'>Sinatra Complex Forms Associations</a> on Learn.co and start learning to code for free.</p>
