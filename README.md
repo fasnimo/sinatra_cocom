@@ -57,11 +57,11 @@ Open up `app/views/owners/new.erb` and you should see the following code:
 
 <form action="/owners" method="POST">
   <label>Name:</label>
-  
+
   <br></br>
-  
+
   <input type="text" name="owner[name]" id="owner_name">
-  
+
   <input type="submit" value="Create Owner">
 </form>
 ```
@@ -74,9 +74,17 @@ How can we dynamically, or programmatically, generate a list of checkboxes for a
 
 In order to dynamically generate these checkboxes, we need to load up all of the pets from the database. Then, we can iterate over them in our `owners/new.erb` view using ERB tags to inject each pet's information into a checkbox form element. Let's take a look:
 
+```ruby
+# controllers/owners_controller.rb
+get '/owners/new' do
+  @pets = Pet.all
+  erb :'owners/new'
+end
+```
+
 ```html
 # views/owners/new.erb
-<%Pet.all.each do |pet|%>
+<%@pets.each do |pet|%>
     <input type="checkbox" name="owner[pet_ids][]" value="<%=pet.id%>" id="<%=pet.id%>"><%=pet.name%></input>
 <%end%>
 ```
@@ -136,7 +144,7 @@ Now that we have this working code, let's go ahead and place it in our `post '/o
 ```ruby
 # app/controllers/owners_controller.rb
 
-post '/owners' do 
+post '/owners' do
   @owner = Owner.create(params[:owner])
   redirect "owners/#{@owner.id}"
 end
@@ -163,23 +171,23 @@ Now our whole form should look something like this:
 
 <form action="/owners" method="POST">
   <label>Name:</label>
-  
+
   <br></br>
-  
+
   <input type="text" name="owner[name]" id="owner_name">
-  
+
   <br></br>
-  
+
   <label>Choose an existing pet:</label>
-  
+
   <br></br>
-  
+
   <%Pet.all.each do |pet|%>
     <input type="checkbox" name="owner[pet_ids][]" id="<%=pet.id%>" value="<%=pet.id%>"><%=pet.name%></input>
   <%end%>
-  
+
   <br></br>
-    
+
     <label>and/or, create a new pet:</label>
     <br></br>
     <label>name:</label>
@@ -224,7 +232,7 @@ end
 That looks pretty good. Let's put it all together:
 
 ```ruby
-post '/owners' do 
+post '/owners' do
   @owner = Owner.create(params[:owner])
   if !params["pet"]["name"].empty?
     @owner.pets << Pet.create(name: params["pet"]["name"])
@@ -255,23 +263,23 @@ Let's do it!
 
 <form action="/owners/<%=@owner.id%>" method="POST">
   <label>Name:</label>
-  
+
   <br></br>
-  
+
   <input type="text" name="owner[name]" id="owner_name" value="<%=@owner.name%>">
-  
+
   <br></br>
-  
+
   <label>Choose an existing pet:</label>
-  
+
   <br></br>
-  
+
   <%Pet.all.each do |pet|%>
     <input type="checkbox" name="owner[pet_ids][]" id="<%= pet.id%>" value="<%=pet.id%>" <%='checked' if @owner.pets.include?(pet) %>><%=pet.name%></input>
   <%end%>
-  
+
   <br></br>
-  
+
   <label>and/or, create a new pet:</label>
   <br></br>
   <label>name:</label>
@@ -321,7 +329,7 @@ Now, if we type `@owner.pets`, we'll see that the owner is no longer associated 
 Great! Now, we need to implement logic similar to that in our `post '/owners'` action to handle a user trying to associate a brand new pet to our owner:
 
 ```ruby
-post '/owners/:id' do 
+post '/owners/:id' do
   @owner = Owner.find(params[:id])
   @owner.update(params["owner"])
   if !params["pet"]["name"].empty?
@@ -335,10 +343,10 @@ And that's it!
 
 ### Creating and Updating Pets with Associated Owners
 
-Now that we've walked through these features together for the `Owner` model, take some time and try to build out the same functionality for `Pet`. The form to create a new pet should allow a user to select from the list of available owners and/or create a new owner, and the form to edit a given pet should allow the user to select/deselect existing owners and/or create a new owner.
+Now that we've walked through these features together for the `Owner` model, take some time and try to build out the same functionality for `Pet`. The form to create a new pet should allow a user to select from the list of available owners and/or create a new owner, and the form to edit a given pet should allow the user to select a new owner or create a new owner. Note that if a new owner is created it would override any existing owner that is selected. 
 
 Make sure you run the tests to check your work.
- 
+
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/sinatra-complex-forms-associations' title='Sinatra and Active Record: Associations and Complex Forms'>Sinatra and Active Record: Associations and Complex Forms</a> on Learn.co and start learning to code for free.</p>
 
 <p class='util--hide'>View <a href='https://learn.co/lessons/sinatra-complex-forms-associations'>Sinatra Complex Forms Associations</a> on Learn.co and start learning to code for free.</p>
