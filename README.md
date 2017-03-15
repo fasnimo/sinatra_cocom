@@ -7,15 +7,15 @@
 
 ## Introduction
 
-As the relationships we build between our models grow and become more complex, we need to build ways for our users to interact with those models in all of their complexity. If a song has many genres, then a user should be able to create a new song *and* select from a list of existing genres and/or create a new genre to be associated to that song, all at the same time. In other words, if our models are associated in a certain way, our users should be able to create and edit instances of those models in ways that reflect those associations.
+As the relationships we build between our models grow and become more complex, we need to build ways for our users to interact with those models in all of their complexity. If a genre has many songs, then a user should be able to create a new song *and* select from a list of existing genres and/or create a new genre to be associated with that song, all at the same time. In other words, if our models are associated in a certain way, our users should be able to create and edit instances of those models in ways that reflect those associations.
 
-In order to achieve this, we'll have to build forms that allow for a user to create and edit not just the given object but any and all objects that are associated to it.
+In order to achieve this, we'll have to build forms that allow for a user to create and edit not just the given object but any and all objects that are associated with it.
 
 ## Overview
 
 **This is a walk-through with some extra challenges for you to complete on your own. There are tests, so be sure to run the tests to make sure you're following along correctly. To follow along, use `shotgun` to start your app and visit URLs/fill out forms as instructed.** In this walk-through, we're dealing with a pet domain model. We have an `Owner` model and a `Pet` model. An owner has many pets, and a pet belongs to an owner. We've already built the migrations, models, and some controller actions and views. Fork and clone this lab to follow along.
 
-Because an owner can have many pets, we want to be able to choose which of the existing pets in our database to associate to a new owner *when the owner is being created*. We also want to be able to create a new pet *and associate it to the owner being created*. So, our form for a new owner must contain a way to select a number of existing pets to associate to that owner as well as a way to create a brand new pet to associate to that owner. The same is true of editing a given owner: we should be able to select and deselect existing pets and/or create a new pet to associate to the owner.
+Because an owner can have many pets, we want to be able to choose which of the existing pets in our database to associate to a new owner *when the owner is being created*. We also want to be able to create a new pet *and associate it with the owner being created*. So, our form for a new owner must contain a way to select a number of existing pets to associate with that owner as well as a way to create a brand new pet to associate with that owner. The same is true of editing a given owner: we should be able to select and deselect existing pets and/or create a new pet to associate with the owner.
 
 Here, we'll be taking a look together at the code that will implement this functionality. Then, you'll build out the same feature for creating/editing new pets.
 
@@ -340,3 +340,5 @@ Now that we've walked through these features together for the `Owner` model, tak
 Make sure you run the tests to check your work.
  
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/sinatra-complex-forms-associations' title='Sinatra and Active Record: Associations and Complex Forms'>Sinatra and Active Record: Associations and Complex Forms</a> on Learn.co and start learning to code for free.</p>
+
+<p class='util--hide'>View <a href='https://learn.co/lessons/sinatra-complex-forms-associations'>Sinatra Complex Forms Associations</a> on Learn.co and start learning to code for free.</p>
