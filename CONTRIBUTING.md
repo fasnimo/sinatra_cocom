@@ -35,3 +35,22 @@ educational content. Everything from fixing typos, to correcting
 out-dated information, to improving exposition, to adding better examples,
 to fixing tests—all contributions to making the curriculum more effective are
 welcome.
+
+### New Contribution Details
+The EDIT/UPDATE action examaples in this lesson, which starts on line 254 in the README, are using the 'post/:id' route when I believe they should be using the conventional 'patch/:id' route. 
+
+I have changed the following lines the these files:
+
+README.md 
+    -line 265:
+        - added a hidden input field for Rack::MethodOverride (already included in config.ru) to use the PATCH request.
+    -line 295 and 333
+        -changed 'post/owners/:id' to 'patch/owners/:id'
+
+controllers/owners_controller.rb
+    -line 26 
+        -changed "post '/owners/:id' " to "patch '/owners:id' " to match RESTful route conventions
+
+controllers/pets_controller.rb
+    -line 22
+        -changed "post '/pets/:id' to "patch '/pets/:id' "
