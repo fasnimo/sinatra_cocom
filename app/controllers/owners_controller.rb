@@ -14,8 +14,10 @@ class OwnersController < ApplicationController
     @owner = Owner.create(params[:owner])
     if !params["pet"]["name"].empty?
       @owner.pets << Pet.create(name: params["pet"]["name"])
+      # When using the shovel operator, ActiveRecord instantly fires update SQL
+      # without waiting for the save or update call on the parent object,
+      # unless the parent object is a new record.
     end
-    @owner.save
     redirect "owners/#{@owner.id}"
   end
 
