@@ -23,7 +23,7 @@ class OwnersController < ApplicationController
     erb :'/owners/show'
   end
 
-  post '/owners/:id' do 
+  patch '/owners/:id' do 
    
   end
 end
