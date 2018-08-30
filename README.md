@@ -78,7 +78,7 @@ In order to dynamically generate these checkboxes, we need to load up all of the
 # controllers/owners_controller.rb
 get '/owners/new' do
   @pets = Pet.all
-  erb :'owners/new'
+  erb :'/owners/new'
 end
 ```
 
@@ -237,10 +237,11 @@ post '/owners' do
   if !params["pet"]["name"].empty?
     @owner.pets << Pet.create(name: params["pet"]["name"])
   end
-  @owner.save
-  redirect to "owners/#{@owner.id}"
+  redirect "owners/#{@owner.id}"
 end
 ```
+
+**NOTE: When using the shovel operator, ActiveRecord instantly fires update SQL without waiting for the save or update call on the parent object, unless the parent object is a new record.**
 
 Let's sum up before we move on. We:
 
@@ -331,14 +332,21 @@ Great! Now, we need to implement logic similar to that in our `post '/owners'` a
 
 ```ruby
 patch '/owners/:id' do
-  @owner = Owner.find(params[:id])
-  @owner.update(params["owner"])
-  if !params["pet"]["name"].empty?
-    @owner.pets << Pet.create(name: params["pet"]["name"])
-  end
-  redirect to "owners/#{@owner.id}"
+    ####### bug fix
+    if !params[:owner].keys.include?("pet_ids")
+    params[:owner]["pet_ids"] = []
+    end
+    #######
+
+    @owner.update(params["owner"])
+    if !params["pet"]["name"].empty?
+      @owner.pets << Pet.create(name: params["pet"]["name"])
+    end
+    redirect "owners/#{@owner.id}"
 end
 ```
+
+**NOTE: The bug fix is required so that it's possible to remove ALL previous pets from owner.**
 
 And that's it!
 
