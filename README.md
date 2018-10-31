@@ -182,7 +182,7 @@ Now our whole form should look something like this:
 
   <br></br>
 
-  <%Pet.all.each do |pet|%>
+  <%@pets.each do |pet|%>
     <input type="checkbox" name="owner[pet_ids][]" id="<%=pet.id%>" value="<%=pet.id%>"><%=pet.name%></input>
   <%end%>
 
@@ -276,7 +276,7 @@ Let's do it!
 
   <br></br>
 
-  <%Pet.all.each do |pet|%>
+  <%@pets.each do |pet|%>
     <input type="checkbox" name="owner[pet_ids][]" id="<%= pet.id%>" value="<%=pet.id%>" <%='checked' if @owner.pets.include?(pet) %>><%=pet.name%></input>
   <%end%>
 
