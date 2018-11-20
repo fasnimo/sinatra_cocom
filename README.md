@@ -2,12 +2,12 @@
 
 ## Objectives
 
-1. Build forms that allow a user to create and edit a given resource and its associated resources.
-2. Build controller actions that handle the requests sent by such forms.
+1.  Build forms that allow a user to create and edit a given resource and its associated resources.
+2.  Build controller actions that handle the requests sent by such forms.
 
 ## Introduction
 
-As the relationships we build between our models grow and become more complex, we need to build ways for our users to interact with those models in all of their complexity. If a genre has many songs, then a user should be able to create a new song *and* select from a list of existing genres and/or create a new genre to be associated with that song, all at the same time. In other words, if our models are associated in a certain way, our users should be able to create and edit instances of those models in ways that reflect those associations.
+As the relationships we build between our models grow and become more complex, we need to build ways for our users to interact with those models in all of their complexity. If a genre has many songs, then a user should be able to create a new song _and_ select from a list of existing genres and/or create a new genre to be associated with that song, all at the same time. In other words, if our models are associated in a certain way, our users should be able to create and edit instances of those models in ways that reflect those associations.
 
 In order to achieve this, we'll have to build forms that allow for a user to create and edit not just the given object but any and all objects that are associated with it.
 
@@ -15,7 +15,7 @@ In order to achieve this, we'll have to build forms that allow for a user to cre
 
 **This is a walk-through with some extra challenges for you to complete on your own. There are tests, so be sure to run the tests to make sure you're following along correctly. To follow along, use `shotgun` to start your app and visit URLs/fill out forms as instructed.** In this walk-through, we're dealing with a pet domain model. We have an `Owner` model and a `Pet` model. An owner has many pets, and a pet belongs to an owner. We've already built the migrations, models, and some controller actions and views. Fork and clone this lab to follow along.
 
-Because an owner can have many pets, we want to be able to choose which of the existing pets in our database to associate to a new owner *when the owner is being created*. We also want to be able to create a new pet *and associate it with the owner being created*. So, our form for a new owner must contain a way to select a number of existing pets to associate with that owner as well as a way to create a brand new pet to associate with that owner. The same is true of editing a given owner: we should be able to select and deselect existing pets and/or create a new pet to associate with the owner.
+Because an owner can have many pets, we want to be able to choose which of the existing pets in our database to associate to a new owner _when the owner is being created_. We also want to be able to create a new pet _and associate it with the owner being created_. So, our form for a new owner must contain a way to select a number of existing pets to associate with that owner as well as a way to create a brand new pet to associate with that owner. The same is true of editing a given owner: we should be able to select and deselect existing pets and/or create a new pet to associate with the owner.
 
 Here, we'll be taking a look together at the code that will implement this functionality. Then, you'll build out the same feature for creating/editing new pets.
 
@@ -58,7 +58,7 @@ Open up `app/views/owners/new.erb` and you should see the following code:
 <form action="/owners" method="POST">
   <label>Name:</label>
 
-  <br></br>
+  <br>
 
   <input type="text" name="owner[name]" id="owner_name">
 
@@ -66,7 +66,7 @@ Open up `app/views/owners/new.erb` and you should see the following code:
 </form>
 ```
 
-Here we have a basic form for a new owner with a field for that new owner's name. However, we want our users to be able to create an owner and select existing pets to associate with that new owner *at the same time*. So, our form should include a list of checkboxes, one for each existing pet, for our user to select from at will.
+Here we have a basic form for a new owner with a field for that new owner's name. However, we want our users to be able to create an owner and select existing pets to associate with that new owner _at the same time_. So, our form should include a list of checkboxes, one for each existing pet, for our user to select from at will.
 
 How can we dynamically, or programmatically, generate a list of checkboxes for all of the pets that are currently in our database?
 
@@ -88,18 +88,18 @@ end
     <input type="checkbox" name="owner[pet_ids][]" value="<%=pet.id%>" id="<%=pet.id%>"><%=pet.name%></input>
 <%end%>
 ```
+
 Let's break this down:
 
-* We use ERB to get all of the pets with `Pet.all`, then we iterate over that collection of `Pet` objects and generate a checkbox for each pet.
-* That checkbox has a `name` of `"owner[pet_ids][]"` because we want to structure our `params` hash such that the array of pet IDs is stored inside the `"owner"` hash. We are aiming to associate the pets that have these IDs with the new owner.
-* We give the checkbox a `value` of the given pet's ID. This way, when that checkbox is selected, its value, i.e., the pet's ID, is what gets sent through to the `params` hash.
-* We give the checkbox an `id` of the given pet's ID so that our Capybara test can find the checkbox using the pet's ID.
-* Finally, in between the opening and closing input tags, we use ERB to render the given pet's name.
+- We use ERB to get all of the pets with `Pet.all`, then we iterate over that collection of `Pet` objects and generate a checkbox for each pet.
+- That checkbox has a `name` of `"owner[pet_ids][]"` because we want to structure our `params` hash such that the array of pet IDs is stored inside the `"owner"` hash. We are aiming to associate the pets that have these IDs with the new owner.
+- We give the checkbox a `value` of the given pet's ID. This way, when that checkbox is selected, its value, i.e., the pet's ID, is what gets sent through to the `params` hash.
+- We give the checkbox an `id` of the given pet's ID so that our Capybara test can find the checkbox using the pet's ID.
+- Finally, in between the opening and closing input tags, we use ERB to render the given pet's name.
 
 The result is a form that looks something like this:
 
 ![](http://readme-pics.s3.amazonaws.com/create-owner-orig.png)
-
 
 Let's place a `binding.pry` in the `post '/owners'` route and submit our form so that we can get a better understanding of the `params` hash we're creating with our form. Once you hit your binding, type `params` in the terminal, and you should see something like this:
 
@@ -107,7 +107,7 @@ Let's place a `binding.pry` in the `post '/owners'` route and submit our form so
 {"owner"=>{"name"=>"Adele", "pet_ids"=>["1", "2"]}}
 ```
 
-I filled out my form with a name of "Adele", and I checked the boxes for "Maddy" and "Nona". So, our `params` hash has a key of `"owner"` that points to a value that is a hash containing two keys: `"name"`, with a value of the name entered into the form, and `"pet_ids"`, with a value of an array containing the ids of all of the pets we selected via our checkboxes. Let's move on to writing the code that will create a new owner *and* associate it to these pets.
+I filled out my form with a name of "Adele", and I checked the boxes for "Maddy" and "Nona". So, our `params` hash has a key of `"owner"` that points to a value that is a hash containing two keys: `"name"`, with a value of the name entered into the form, and `"pet_ids"`, with a value of an array containing the ids of all of the pets we selected via our checkboxes. Let's move on to writing the code that will create a new owner _and_ associate it to these pets.
 
 #### Creating New Owners with Associated Pets in the Controller
 
@@ -150,7 +150,7 @@ post '/owners' do
 end
 ```
 
-Great! We're almost done with this feature. But, remember that we want a user to be able to create a new owner, select some existing pets to associate with that owner, *and* also have the option of creating a new pet to associate with that owner. Let's build that latter capability into our form.
+Great! We're almost done with this feature. But, remember that we want a user to be able to create a new owner, select some existing pets to associate with that owner, _and_ also have the option of creating a new pet to associate with that owner. Let's build that latter capability into our form.
 
 #### Creating a New Owner and Associating Them with a New Pet
 
@@ -158,10 +158,10 @@ This will be fairly simple. All we need to do is add a section to our form for c
 
 ```html
 and/or, create a new pet:
-    <br></br>
+    <br>
     <label>name:</label>
       <input  type="text" name="pet[name]"></input>
-    <br></br>
+    <br>
 ```
 
 Now our whole form should look something like this:
@@ -172,27 +172,27 @@ Now our whole form should look something like this:
 <form action="/owners" method="POST">
   <label>Name:</label>
 
-  <br></br>
+  <br>
 
   <input type="text" name="owner[name]" id="owner_name">
 
-  <br></br>
+  <br>
 
   <label>Choose an existing pet:</label>
 
-  <br></br>
+  <br>
 
   <%@pets.each do |pet|%>
     <input type="checkbox" name="owner[pet_ids][]" id="<%=pet.id%>" value="<%=pet.id%>"><%=pet.name%></input>
   <%end%>
 
-  <br></br>
+  <br>
 
     <label>and/or, create a new pet:</label>
-    <br></br>
+    <br>
     <label>name:</label>
       <input  type="text" name="pet[name]"></input>
-    <br></br>
+    <br>
   <input type="submit" value="Create Owner">
 </form>
 ```
@@ -215,7 +215,7 @@ For this, we'll have to grab the new pet's name from `params["pet"]["name"]`, us
 @owner.pets << Pet.create(name: params["pet"]["name"])
 ```
 
-But, you might be wondering, what if the user *does not* fill out the field to name and create a new pet? In that case, our `params` hash would look like this:
+But, you might be wondering, what if the user _does not_ fill out the field to name and create a new pet? In that case, our `params` hash would look like this:
 
 ```ruby
 {"owner"=>{"name"=>"Adele", "pet_ids"=>["1", "2"]}, "pet"=>{"name"=>""}}
@@ -245,10 +245,10 @@ end
 
 Let's sum up before we move on. We:
 
-* Built a form that dynamically generates checkboxes for each of the existing pets.
-* Added a field to that form in which a user can fill out the name for a brand new pet.
-* Built a controller action that uses mass assignment to create a new owner and associate it to any existing pets that the user selected via checkboxes.
-* Added to that controller action code that checks to see if a user did in fact fill out the form field to name and create a new pet. If so, our code will create that new pet and add it to the newly-created owner's collection of pets.
+- Built a form that dynamically generates checkboxes for each of the existing pets.
+- Added a field to that form in which a user can fill out the name for a brand new pet.
+- Built a controller action that uses mass assignment to create a new owner and associate it to any existing pets that the user selected via checkboxes.
+- Added to that controller action code that checks to see if a user did in fact fill out the form field to name and create a new pet. If so, our code will create that new pet and add it to the newly-created owner's collection of pets.
 
 Now that we can create a new owner with associated pets, let's build out the feature for editing that owner and their associated pets.
 
@@ -266,27 +266,27 @@ Let's do it!
   <input id="hidden" type="hidden" name="_method" value="patch">  
   <label>Name:</label>
 
-  <br></br>
+  <br>
 
   <input type="text" name="owner[name]" id="owner_name" value="<%=@owner.name%>">
 
-  <br></br>
+  <br>
 
   <label>Choose an existing pet:</label>
 
-  <br></br>
+  <br>
 
   <%@pets.each do |pet|%>
     <input type="checkbox" name="owner[pet_ids][]" id="<%= pet.id%>" value="<%=pet.id%>" <%='checked' if @owner.pets.include?(pet) %>><%=pet.name%></input>
   <%end%>
 
-  <br></br>
+  <br>
 
   <label>and/or, create a new pet:</label>
-  <br></br>
+  <br>
   <label>name:</label>
     <input  type="text" name="pet[name]" id="pet_name"></input>
-  <br></br>
+  <br>
   <input type="submit" value="Update Owner">
 </form>
 ```
@@ -337,7 +337,7 @@ patch '/owners/:id' do
     params[:owner]["pet_ids"] = []
     end
     #######
-    
+
     @owner = Owner.find(params[:id])
     @owner.update(params["owner"])
     if !params["pet"]["name"].empty?
@@ -353,7 +353,7 @@ And that's it!
 
 ### Creating and Updating Pets with Associated Owners
 
-Now that we've walked through these features together for the `Owner` model, take some time and try to build out the same functionality for `Pet`. The form to create a new pet should allow a user to select from the list of available owners and/or create a new owner, and the form to edit a given pet should allow the user to select a new owner or create a new owner. Note that if a new owner is created it would override any existing owner that is selected. 
+Now that we've walked through these features together for the `Owner` model, take some time and try to build out the same functionality for `Pet`. The form to create a new pet should allow a user to select from the list of available owners and/or create a new owner, and the form to edit a given pet should allow the user to select a new owner or create a new owner. Note that if a new owner is created it would override any existing owner that is selected.
 
 Make sure you run the tests to check your work.
 
