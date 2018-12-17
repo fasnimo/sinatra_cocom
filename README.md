@@ -490,7 +490,7 @@ And that's it!
 Now that we've walked through these features together for the `Owner` model,
 take some time and try to build out the same functionality for `Pet`. The form
 to create a new pet should allow a user to select from the list of available
-owners and/or create a new owner, and the forym to edit a given pet should allow
+owners and/or create a new owner, and the form to edit a given pet should allow
 the user to select a new owner or create a new owner. Note that if a new owner
 is created it would override any existing owner that is selected.
 
