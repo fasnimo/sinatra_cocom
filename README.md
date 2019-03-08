@@ -129,10 +129,7 @@ all of the pets that are currently in our database?
 
 #### Dynamically Generating Checkboxes
 
-In order to dynamically generate these checkboxes, we need to load up all of the
-pets from the database. Then, we can iterate over them in our `owners/new.erb`
-view using ERB tags to inject each pet's information into a checkbox form
-element. Let's take a look:
+In order to dynamically generate these checkboxes, we need to load up all of the pets from the database. Then, we can iterate over them in our `owners/new.erb` view using ERB tags to inject each pet's information into a checkbox form element. Let's take a look:
 
 ```ruby
 # controllers/owners_controller.rb
