@@ -80,7 +80,7 @@ Go ahead and open up the seed file in this app, `db/seeds.rb`. You should see
 the following:
 
 ```ruby
- # Add seed data here. Seed your database with `rake db:seed`
+# Add seed data here. Seed your database with `rake db:seed`
 sophie = Owner.create(name: "Sophie")
 Pet.create(name: "Maddy", owner: sophie)
 Pet.create(name: "Nona", owner: sophie)
@@ -144,9 +144,9 @@ end
 
 ```html
 # views/owners/new.erb
-<%@pets.each do |pet|%>
-    <input type="checkbox" name="owner[pet_ids][]" value="<%=pet.id%>" id="<%=pet.id%>"><%=pet.name%></input>
-<%end%>
+<% @pets.each do |pet| %>
+  <input type="checkbox" name="owner[pet_ids][]" id="<%= pet.id %>" value="<%= pet.id %>"><%= pet.name %></input><br>
+<% end %>
 ```
 
 Let's break this down:
@@ -237,7 +237,7 @@ Now that we have this working code, let's go ahead and place it in our
 
 post '/owners' do
   @owner = Owner.create(params[:owner])
-  redirect "owners/#{@owner.id}"
+  redirect "/owners/#{@owner.id}"
 end
 ```
 
@@ -262,34 +262,32 @@ and/or, create a new pet:
 Now our whole form should look something like this:
 
 ```html
-<h1>Create a new Owner</h1>
+<h1>Create a New Owner</h1>
 
 <form action="/owners" method="POST">
-  <label>Name:</label>
+  <label>Owner Name:</label>
+  <br>
+  <input type="text" name="owner[name]">
 
   <br>
+  <p>Select an existing pet or create a new one below.</p>
 
-  <input type="text" name="owner[name]" id="owner_name">
 
+  <h3>Existing Pets</h3>
+  <% @pets.each do |pet| %>
+    <input type="checkbox" name="owner[pet_ids][]" id="<%= pet.id %>" value="<%= pet.id %>"><%= pet.name %></input><br>
+  <% end %>
   <br>
 
-  <label>Choose an existing pet:</label>
-
+  <h3>New Pet</h3>
+  <label>Pet Name: </label>
   <br>
+  <input type="text" name="pet[name]" id="pet_name"></input>
+  <br><br>
 
-  <%@pets.each do |pet|%>
-    <input type="checkbox" name="owner[pet_ids][]" id="<%=pet.id%>" value="<%=pet.id%>"><%=pet.name%></input>
-  <%end%>
-
-  <br>
-
-    <label>and/or, create a new pet:</label>
-    <br>
-    <label>name:</label>
-      <input  type="text" name="pet[name]"></input>
-    <br>
   <input type="submit" value="Create Owner">
 </form>
+
 ```
 
 Note that we've included the section for creating a new pet at the bottom of the
@@ -383,33 +381,32 @@ Let's do it!
 # edit.erb
 <h1>Update Owner</h1>
 
-<form action="/owners/<%=@owner.id%>" method="POST">
-  <input id="hidden" type="hidden" name="_method" value="patch">  
-  <label>Name:</label>
+<h2>Edits for <%= @owner.name %></h2>
 
-  <br>
+  <form action="/owners/<%= @owner.id %>" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="patch">
+    <label>Edit the Owner's Name:</label>
+    <br>
+    <input type="text" name="owner[name]" value="<%= @owner.name %>">
 
-  <input type="text" name="owner[name]" id="owner_name" value="<%=@owner.name%>">
+    <br>
+    <p>Select an existing pet or create a new one below.</p>
 
-  <br>
 
-  <label>Choose an existing pet:</label>
+    <h3>Existing Pets</h3>
+    <% @pets.each do |pet| %>
+      <input type="checkbox" name="owner[pet_ids][]" id="<%= pet.id %>" value="<%= pet.id %>" <%='checked' if @owner.pets.include?(pet) %>><%= pet.name %></input><br>
+    <% end %>
+    <br>
 
-  <br>
+    <h3>New Pet</h3>
+    <label>Pet Name: </label>
+    <br>
+    <input type="text" name="pet[name]" id="pet_name"></input>
+    <br><br>
 
-  <%@pets.each do |pet|%>
-    <input type="checkbox" name="owner[pet_ids][]" id="<%= pet.id%>" value="<%=pet.id%>" <%='checked' if @owner.pets.include?(pet) %>><%=pet.name%></input>
-  <%end%>
-
-  <br>
-
-  <label>and/or, create a new pet:</label>
-  <br>
-  <label>name:</label>
-    <input  type="text" name="pet[name]" id="pet_name"></input>
-  <br>
-  <input type="submit" value="Update Owner">
-</form>
+    <input type="submit" value="Update Owner">
+  </form>
 ```
 
 The main difference here is that we added the `checked` property to each
