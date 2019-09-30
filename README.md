@@ -145,7 +145,7 @@ end
 ```html
 # views/owners/new.erb
 <% @pets.each do |pet| %>
-  <input type="checkbox" name="owner[pet_ids][]" id="<%= pet.id %>" value="<%= pet.id %>"><%= pet.name %></input><br>
+  <input type="checkbox" name="owner[pet_ids][]" id="<%= pet.id %>" value="<%= pet.id %>"><%= pet.name %><br>
 <% end %>
 ```
 
